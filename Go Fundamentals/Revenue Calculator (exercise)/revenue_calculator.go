@@ -2,22 +2,38 @@ package main
 
 import "fmt"
 
+// Global Variables:
+var revenue float64
+const taxRate= 27.5
+
 func main() {
-	var revenue float64
-	const taxRate= 27.5
+	// Data Input:
+	inputRevenue("Insert your monthly revenue: ")
 
-	fmt.Print("Insert your Monthly Revenue: ")
+	// Calculations:
+	earningBeforeTaxes, earningAfterTaxes, ratio := calculateValues(revenue)
+
+	// Data Output:
+	formattedEBT := fmt.Sprintf("Earning Before Taxes: %.1f\n", earningBeforeTaxes)
+	formattedEAT := fmt.Sprintf("Earning After Taxes: %.1f\n", earningAfterTaxes)
+	formattedRatio := fmt.Sprintf("Ratio: %.2f\n", ratio)
+
+	fmt.Print(formattedEBT, formattedEAT, formattedRatio)
+}
+
+//Function managing Data Input:
+func inputRevenue (text string){
+	fmt.Print(text)
 	fmt.Scan(&revenue)
+}
 
-	earningBeforeTaxes := revenue
-	
-	taxes := revenue * (taxRate / 100)
+//Function to Execute Calculations:
+func calculateValues(revenue float64) (ebt, eat, rt float64){
+	ebt = revenue
 
-	earningAfterTaxes := revenue - taxes
+	eat = revenue - (revenue * (taxRate / 100))
 
-	ratio := earningBeforeTaxes / earningAfterTaxes
+	rt = ebt / eat
 
-	fmt.Println(earningBeforeTaxes)
-	fmt.Println(earningAfterTaxes)
-	fmt.Println(ratio)
+	return //ebt, eat and rt in that exact order.
 }

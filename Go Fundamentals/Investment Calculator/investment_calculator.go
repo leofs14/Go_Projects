@@ -12,7 +12,7 @@ func main() { //função obrigatória
 
 	// Variáveis
 	var investmentAmount, years float64 
-	expectedReturnRate := 5.5
+	expectedReturnRate := 5.5 //default value set, if user input = null, this value will be used
 
 	//Entrada de Dados:
 	// fmt.Print("Investment Amount: ")
