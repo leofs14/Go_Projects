@@ -1,38 +1,15 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"os"
-	"strconv"
+	"example.com/bank/fileops"
+	"github.com/Pallinder/go-randomdata"
 )
 
 const accountBalanceFile = "balance.txt"
 
-func getBalanceFromFile() (float64, error) {
-	data, err := os.ReadFile(accountBalanceFile) // _ In Go means a placeholder
-
-	if err != nil { // Nil is when ou have no errors.
-		return 1000, errors.New("failed to find balance file")
-	}
-
-	balanceText := string(data)
-	balance, err := strconv.ParseFloat(balanceText, 64)
-
-	if err != nil {
-		return 1000, errors.New("failed to parse stored balance value")
-	}
-
-	return balance, nil
-}
-
-func writeBalanceToFile(balance float64) {
-	balanceText := fmt.Sprint("Account Balance: ", balance)
-	os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
-}
-
 func main() {
-	accountBalance, err := getBalanceFromFile()
+	accountBalance, err := fileops.GetFloatFromFile(accountBalanceFile)
 
 	if err != nil{
 		fmt.Println("ERROR:")
@@ -43,14 +20,10 @@ func main() {
 	}
 
 	fmt.Println("Welcome to Go Bank!")
+	fmt.Println("Reach us 24/7 at:",randomdata.PhoneNumber())
 
-	for i := 0; i < 200; i++ {
-		
-		fmt.Println("What would you like to do?")
-		fmt.Println("1. Check Balance")
-		fmt.Println("2. Deposit Money")
-		fmt.Println("3. Withdraw Money")
-		fmt.Println("4. Exit")
+	for {	
+		presentOptions()
 
 		var choice int
 		fmt.Print("Your choice: ")
@@ -72,7 +45,7 @@ func main() {
 
 			accountBalance += depositAmmount // Shortcut for 1 = 1+2
 			fmt.Println("Balance Updated! New Amount:", accountBalance)
-			writeBalanceToFile(accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 		case 3:
 			fmt.Print("Withdrawal Amount: ")
 			var withdrawalAmmount float64
@@ -86,7 +59,7 @@ func main() {
 
 			accountBalance -= withdrawalAmmount // Same Shortcut as above but for -
 			fmt.Println("Balance Updated! New Amount:", accountBalance)
-			writeBalanceToFile(accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 		case 4:
 			fmt.Println("Goodbye!")
 			fmt.Println("Thanks for choosing our bank!")
