@@ -1,4 +1,4 @@
-package main
+package lists
 
 import "fmt"
 import "example.com/array/Product"
@@ -12,6 +12,11 @@ func main(){
 
 	updatedPrices := append(prices, 5.99) // Adds to the dynamic slice and the array in memory but it doesnt change the original slice
 	fmt.Println(updatedPrices, prices) // It only updates the original dynamic slice if its reassigned
+
+	discountPrices := []float64{101.99, 80.99, 20.59}
+	prices = append(prices, discountPrices...) // Os ... tiram o valor de lista e colocam como o tipo de elemento da lista, float aqui
+	fmt.Println(prices)
+
 	fmt.Println("")
 
 	hobbies := [3]string{"read", "game", "soccer"}
